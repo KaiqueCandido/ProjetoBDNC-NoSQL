@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <head>
+        <title>TODO supply a title</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+        <h:form enctype="multipart/form-data"> 
+            <h:outputLabel value="Placa"/>
+            <h:inputText value="#{controllerVeiculo.veiculo.placa}"/>
+
+            <h:outputLabel value="Fabricante"/>
+            <h:inputText value="#{controllerVeiculo.veiculo.fabricante}"/>
+
+            <h:outputLabel value="Nome Do Veiculo"/>
+            <h:inputText value="#{controllerVeiculo.veiculo.nome}"/>            
+
+            <h:outputLabel value="Valor Aluguel"/>
+            <h:inputText value="#{controllerVeiculo.aluguel.valor}"/>
+
+            <h:outputLabel value="Foto do Veiculo"/>
+            <p:fileUpload
+                label="Procurar"
+                value="#{controllerVeiculo.fileVeiculo}"
+                allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/" 
+                mode="simple"
+                required="true"
+                styleClass="btn btn-default"
+                />
+
+            <h:commandButton value="Salvar" action="#{controllerVeiculo.addVeiculo()}"/>
+
+        </h:form>
+    </body>
+</html>

@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <head>
+        <title>Locadora de Veiculos</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet"/>
+
+        <!-- Custom CSS -->
+        <link href="css/shop-homepage.css" rel="stylesheet"/>
+
+    </head>
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <h:form><h:commandLink class="navbar-brand" action="#{controllerServidor.retornarAPaginaInicial()}" value="Inicio"/></h:form>
+                    
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="#">Sobre</a>
+                        </li>
+                        <li>
+                            <a href="#">Serviços</a>
+                        </li>
+                        <li>
+                            <a href="#">Contato</a>
+                        </li>                        
+                    </ul>
+                    <ul class="nav navbar-right">
+                        <li>    
+                            <c:if test="#{controllerServidor.cliente.id != 0}">
+                                <!--<div class="dropdown">-->
+                                <button class="btn btn-default-black dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    #{controllerServidor.cliente.nome}
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">                                
+                                    <li><a href="#">Action</a></li>
+                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="#">Something else here</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="#"><span class="glyphicon glyphicon-off"></span> Sair</a></li>
+                                </ul>
+                            </c:if>
+
+                            <c:if test="#{controllerServidor.cliente.id == 0}">
+                                <!--<div class="dropdown">-->
+                                <button class="btn btn-default-black dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    Login
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">                                
+                                    <h:form id="formLogin">
+                                        <div class="form-group">
+                                            <label for="username"><span class="glyphicon glyphicon-user"></span> Email</label>
+                                            <h:inputText value="#{controllerServidor.emailLogin}" class="form-control" id="usrname" pt:placeholder="Digite o Email"/>                                        
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Senha</label>
+                                            <h:inputSecret value="#{controllerServidor.senhaLogin}" class="form-control" id="psw" pt:placeholder="Digite a Senha"/>                                        
+                                        </div>
+
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" value="" checked=""/>Relembrar-me</label>
+                                        </div>
+
+                                        <h:commandButton action="#{controllerServidor.logarCliente()}" class="btn btn-success btn-block" value="Login"></h:commandButton>                                    
+                                    </h:form>                                             
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="#" class="text-center">Novo Cliente? Comece Aqui.</a></li>
+                                </ul>
+                            </c:if>
+                            <!--</div>-->
+                        </li>                        
+                    </ul>
+                </div>                
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+
+        <!-- Page Content -->
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-3">
+                    <p class="lead">Locadora Automotiva</p>
+                    <div class="list-group">
+                        <h:form><h:commandLink class="list-group-item" action="#{controllerVeiculo.carregarListaDeVeiculosEconomicos()}" value="Economico"/></h:form>
+                        <h:form><h:commandLink class="list-group-item" action="#{controllerVeiculo.carregarListaDeVeiculosLuxo()}" value="Luxo"/></h:form>
+                        <h:form><h:commandLink class="list-group-item" action="#{controllerVeiculo.carregarListaDeVeiculosSuv()}" value="SUV"/></h:form>                        
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+
+                    <div class="row carousel-holder">
+
+                        <div class="col-md-12">
+                            <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+                                <ol class="carousel-indicators">
+                                    <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+                                    <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+                                    <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+                                </ol>
+                                <div class="carousel-inner">
+                                    <div class="item active">
+                                        <img class="slide-image" src="img/veiculos/SlideCorollafest.png" alt="" style="width: 900px; height: 300px"/>
+                                    </div>
+                                    <div class="item">
+                                        <img class="slide-image" src="img/veiculos/SlideSanderoAuto.png" alt="" style="width: 800px; height: 300px"/>
+                                    </div>
+                                    <div class="item">
+                                        <img class="slide-image" src="img/veiculos/slideSandero.png" alt="" style="width: 900px; height: 300px"/>
+                                    </div>
+                                </div>
+                                <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                </a>
+                                <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                                    <span class="glyphicon glyphicon-chevron-right"></span>
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <h:form>
+                        <h:commandButton  value="Carregar lista de veiculos" action="#{controllerVeiculo.carregarListaDeVeiculos()}"/>
+                    </h:form>
+
+                    <div class="row">
+                        <c:forEach items="#{controllerVeiculo.listaVeiculos}" var="veiculo">                            
+                            <div class="col-sm-4 col-lg-4 col-md-4">
+                                <div class="thumbnail">                                
+                                    <img src="img/veiculos/#{veiculo.foto}" alt="#{veiculo.nome}" style="width: 320px; height: 150px"/>
+                                    <div class="caption">
+                                        <h4 class="pull-right">$#{veiculo.aluguel.valor}0</h4>
+                                        <h:form><h4><h:commandLink action="#{controllerVeiculo.pesquisarVeiculo(veiculo.id)}" value="#{veiculo.fabricante} #{veiculo.nome}"/></h4></h:form>                                        
+                                        <p>#{veiculo.descricao}</p>
+                                    </div>
+                                    <div class="ratings">
+                                        <p class="pull-right">15 reviews</p>
+                                        <p>
+                                            <span class="glyphicon glyphicon-star"></span>
+                                            <span class="glyphicon glyphicon-star"></span>
+                                            <span class="glyphicon glyphicon-star"></span>
+                                            <span class="glyphicon glyphicon-star"></span>
+                                            <span class="glyphicon glyphicon-star"></span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>    
+
+                        <!--                        <div class="col-sm-4 col-lg-4 col-md-4">
+                                                    <div class="thumbnail">                                
+                                                        <img src="img/fordK.png" alt="Novo Ford K" style="width: 320px; height: 150px"/>
+                                                        <div class="caption">
+                                                            <h4 class="pull-right">$24.99</h4>
+                                                            <h4><a href="#">First Product</a>
+                                                            </h4>
+                                                            <p>See more snippets like this online store item at <a target="_blank" href="http://www.bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
+                                                        </div>
+                                                        <div class="ratings">
+                                                            <p class="pull-right">15 reviews</p>
+                                                            <p>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                        
+                                                <div class="col-sm-4 col-lg-4 col-md-4">
+                                                    <div class="thumbnail">                                
+                                                        <img src="img/fordK.png" alt="Novo Ford K" style="width: 320px; height: 150px"/>
+                                                        <div class="caption">
+                                                            <h4 class="pull-right">$24.99</h4>
+                                                            <h4><a href="#">First Product</a>
+                                                            </h4>
+                                                            <p>See more snippets like this online store item at <a target="_blank" href="http://www.bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
+                                                        </div>
+                                                        <div class="ratings">
+                                                            <p class="pull-right">15 reviews</p>
+                                                            <p>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                        
+                                                <div class="col-sm-4 col-lg-4 col-md-4">
+                                                    <div class="thumbnail">
+                                                        <img src="img/hb20.png" alt="Novo HB20" style="width: 320px; height: 150px"/>
+                                                        <div class="caption">
+                                                            <h4 class="pull-right">$64.99</h4>
+                                                            <h4><a href="#">Second Product</a>
+                                                            </h4>
+                                                            <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                                        </div>
+                                                        <div class="ratings">
+                                                            <p class="pull-right">12 reviews</p>
+                                                            <p>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star-empty"></span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                        
+                                                <div class="col-sm-4 col-lg-4 col-md-4">
+                                                    <div class="thumbnail">
+                                                        <img src="img/focus.png" alt="Novo Ford Focus" style="width: 320px; height: 150px"/>
+                                                        <div class="caption">
+                                                            <h4 class="pull-right">$74.99</h4>
+                                                            <h4><a href="#">Third Product</a>
+                                                            </h4>
+                                                            <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                                        </div>
+                                                        <div class="ratings">
+                                                            <p class="pull-right">31 reviews</p>
+                                                            <p>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star-empty"></span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                        
+                                                <div class="col-sm-4 col-lg-4 col-md-4">
+                                                    <div class="thumbnail">
+                                                        <img src="img/bmw.png" alt="BMW 320" style="width: 320px; height: 150px"/>
+                                                        <div class="caption">
+                                                            <h4 class="pull-right">$84.99</h4>
+                                                            <h4><a href="#">Fourth Product</a>
+                                                            </h4>
+                                                            <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                                        </div>
+                                                        <div class="ratings">
+                                                            <p class="pull-right">6 reviews</p>
+                                                            <p>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star-empty"></span>
+                                                                <span class="glyphicon glyphicon-star-empty"></span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                        
+                                                <div class="col-sm-4 col-lg-4 col-md-4">
+                                                    <div class="thumbnail">
+                                                        <img src="img/Renault-Duster.png" alt="Renault Duster" style="width: 320px; height: 150px"/>
+                                                        <div class="caption">
+                                                            <h4 class="pull-right">$94.99</h4>
+                                                            <h4><a href="#">Fifth Product</a>
+                                                            </h4>
+                                                            <p>This is a short description. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                                        </div>
+                                                        <div class="ratings">
+                                                            <p class="pull-right">18 reviews</p>
+                                                            <p>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star"></span>
+                                                                <span class="glyphicon glyphicon-star-empty"></span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>-->
+
+                        <div class="col-sm-4 col-lg-4 col-md-4">
+                            <h4><a href="#">Like this template?</a>
+                            </h4>
+                            <p>If you like this template, then check out <a target="_blank" href="http://maxoffsky.com/code-blog/laravel-shop-tutorial-1-building-a-review-system/">this tutorial</a> on how to build a working review system for your online store!</p>
+                            <a class="btn btn-primary" target="_blank" href="http://maxoffsky.com/code-blog/laravel-shop-tutorial-1-building-a-review-system/">View Tutorial</a>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+        <div class="container">
+
+
+            <!-- Footer -->
+            <footer>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p>Copyright Your Website 2014</p>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+        <!-- /.container -->
+
+        <!-- jQuery -->
+        <script src="js/jquery.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="js/bootstrap.min.js"></script>
+    </body>
+</html>

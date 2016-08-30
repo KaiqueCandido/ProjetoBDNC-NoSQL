@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui">
+
+    <head>
+
+        <title>#{controllerVeiculo.veiculoPesquisado.nome}</title>
+        <!-- Bootstrap Core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet"/>
+
+        <!-- Custom CSS -->
+        <link href="css/shop-item.css" rel="stylesheet"/>
+
+    </head>
+    <body>
+        <br/><br/>
+        <br/><br/>                        
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <h:form><h:commandLink class="navbar-brand" action="#{controllerServidor.retornarAPaginaInicial()}" value="Inicio"/></h:form>
+
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="#">Sobre</a>
+                        </li>
+                        <li>
+                            <a href="#">Serviços</a>
+                        </li>
+                        <li>
+                            <a href="#">Contato</a>
+                        </li>                        
+                    </ul>
+                    <ul class="nav navbar-right">
+                        <li>    
+                            <c:if test="#{controllerServidor.cliente.id != 0}">
+                                <!--<div class="dropdown">-->
+                                <button class="btn btn-default-black dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    #{controllerServidor.cliente.nome}
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">                                
+                                    <li><a href="#">Action</a></li>
+                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="#">Something else here</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="#"><span class="glyphicon glyphicon-off"></span> Sair</a></li>
+                                </ul>
+                            </c:if>
+
+                            <c:if test="#{controllerServidor.cliente.id == 0}">
+                                <!--<div class="dropdown">-->
+                                <button class="btn btn-default-black dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    Login
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">                                
+                                    <h:form id="formLogin">
+                                        <div class="form-group">
+                                            <label for="username"><span class="glyphicon glyphicon-user"></span> Email</label>
+                                            <h:inputText value="#{controllerServidor.emailLogin}" class="form-control" id="usrname" pt:placeholder="Digite o Email"/>                                        
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Senha</label>
+                                            <h:inputSecret value="#{controllerServidor.senhaLogin}" class="form-control" id="psw" pt:placeholder="Digite a Senha"/>                                        
+                                        </div>
+
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" value="" checked=""/>Relembrar-me</label>
+                                        </div>
+
+                                        <h:commandButton action="#{controllerServidor.logarCliente()}" class="btn btn-success btn-block" value="Login"></h:commandButton>                                    
+                                    </h:form>                                             
+                                    <li role="separator" class="divider"></li>
+                                    <li><a href="#" class="text-center">Novo Cliente? Comece Aqui.</a></li>
+                                </ul>
+                            </c:if>
+                            <!--</div>-->
+                        </li>                        
+                    </ul>
+                </div>                
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+
+        <!-- Page Content -->
+        <div class="container">
+
+            <div class="row">
+
+                <div class="col-md-3">
+                    <p class="lead">Shop Name</p>
+                    <div class="list-group">
+                        <h:form><h:commandLink class="list-group-item" action="#{controllerVeiculo.carregarListaDeVeiculosEconomicos()}" value="Economico"/></h:form>
+                        <h:form><h:commandLink class="list-group-item" action="#{controllerVeiculo.carregarListaDeVeiculosLuxo()}" value="Luxo"/></h:form>
+                        <h:form><h:commandLink class="list-group-item" action="#{controllerVeiculo.carregarListaDeVeiculosSuv()}" value="SUV"/></h:form>                        
+                    </div>
+                </div>
+
+                <div class="col-md-9">
+
+                    <div class="thumbnail">
+                        <img class="img-responsive" src="img/veiculos/#{controllerVeiculo.veiculoPesquisado.foto}" alt="#{controllerVeiculo.veiculoPesquisado.nome}"
+                             style="height: 300px"/>
+                        <div class="caption-full">
+                            <h4 class="pull-right">$#{controllerVeiculo.veiculoPesquisado.aluguel.valor}0</h4>
+                            <h4><a href="#">#{controllerVeiculo.veiculoPesquisado.fabricante} 
+                                    #{controllerVeiculo.veiculoPesquisado.nome}</a>
+                            </h4>
+                            <p>See more snippets like these online store reviews at <a target="_blank" href="http://bootsnipp.com">Bootsnipp - http://bootsnipp.com</a>.</p>
+                            <p>Want to make these reviews work? Check out
+                                <strong><a href="http://maxoffsky.com/code-blog/laravel-shop-tutorial-1-building-a-review-system/">this building a review system tutorial</a>
+                                </strong>over at maxoffsky.com!</p>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+                        </div>
+                        <div class="ratings">
+                            <p class="pull-right">3 reviews</p>
+                            <p>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star-empty"></span>
+                                4.0 stars
+                            </p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <h:form>
+                            <ul class="nav navbar-nav">
+                                <li style="padding-right: 15px">
+                                    <h:inputText class="input-sm" value="#{controllerVeiculo.saida}" pt:placeholder="Data de Locação Ex:01/09/2016" style="width: 200px"/>
+                                </li>
+                                <li style="padding-right: 15px">
+                                    <h:inputText class="input-sm" value="#{controllerVeiculo.chegada}" pt:placeholder="Data de Devolução Ex:05/09/2016" style="width: 210px"/><br/>
+                                </li>
+                                <li style="padding-right: 15px">
+                                    <h4><h:outputText class="text-capitalize" value="Estimativa de Aluguel: "/></h4>                                    
+                                </li>
+                                <li style="padding-right: 15px">
+                                    <h:commandButton class="btn btn-success" value="Locar Este Carro" action="#{controllerVeiculo.valorAluguel()}"/>
+                                </li>                        
+                            </ul>
+                            <br/><br/>
+                        </h:form>                        
+                    </div>
+
+                    <br/>
+                    <div class="well">
+
+                        <div class="text-right">
+                            <a class="btn btn-success">Leave a Review</a>
+                        </div>
+
+                        <hr/>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star-empty"></span>
+                                Anonymous
+                                <span class="pull-right">10 days ago</span>
+                                <p>This product was great in terms of quality. I would definitely buy another!</p>
+                            </div>
+                        </div>
+
+                        <hr/>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star-empty"></span>
+                                Anonymous
+                                <span class="pull-right">12 days ago</span>
+                                <p>I've alredy ordered another one!</p>
+                            </div>
+                        </div>
+
+                        <hr/>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star"></span>
+                                <span class="glyphicon glyphicon-star-empty"></span>
+                                Anonymous
+                                <span class="pull-right">15 days ago</span>
+                                <p>I've seen some better than this, but not at this price. I definitely recommend this item.</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+        <!-- /.container -->
+
+        <div class="container">
+
+            <hr/>
+
+            <!-- Footer -->
+            <footer>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p>Copyright Your Website 2014</p>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+        <!-- /.container -->
+
+        <!-- jQuery -->
+        <script src="js/jquery.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="js/bootstrap.min.js"></script>
+    </body>
+</html>

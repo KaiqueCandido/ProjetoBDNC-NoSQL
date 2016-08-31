@@ -39,6 +39,7 @@ public class ControllerVeiculo {
     private List<Veiculo> listaVeiculos;
     private UploadedFile fileVeiculo;
     private String chegada, saida;
+    private int tipoVeiculo;
 
     public ControllerVeiculo() {
         this.veiculo = new Veiculo();
@@ -48,6 +49,7 @@ public class ControllerVeiculo {
         this.listaVeiculos = new ArrayList<>();
         this.chegada = "";
         this.saida = "";
+        this.tipoVeiculo = 10;
     }
 
     public Veiculo getVeiculo() {
@@ -106,6 +108,14 @@ public class ControllerVeiculo {
         this.saida = saida;
     }
 
+    public int getTipoVeiculo() {
+        return tipoVeiculo;
+    }
+
+    public void setTipoVeiculo(int tipoVeiculo) {
+        this.tipoVeiculo = tipoVeiculo;
+    }
+
     //Metodos da aplicação
     public void carregarListaDeVeiculos() {
         this.setListaVeiculos(serviceVeiculo.listar());
@@ -147,10 +157,21 @@ public class ControllerVeiculo {
     public String addVeiculo() throws IOException {
         veiculo.setAluguel(aluguel);
         veiculo.setFoto(upload(this.fileVeiculo));
+        this.verificaTipoVeiculo();
         serviceVeiculo.salvar(veiculo);
         veiculo = new Veiculo();
         aluguel = new Aluguel();
-        return "";
+        return "index.xhml";
+    }
+
+    public void verificaTipoVeiculo() {
+        if (this.tipoVeiculo == 0) {
+            this.veiculo.setTipo(TipoVeiculo.ECONOMICO);
+        } else if (this.tipoVeiculo == 1) {
+            this.veiculo.setTipo(TipoVeiculo.SUV);
+        } else {
+            this.veiculo.setTipo(TipoVeiculo.LUXO);
+        }
     }
 
     public String pesquisarVeiculo(long id) {

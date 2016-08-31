@@ -7,37 +7,207 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
-    <head>
-        <title>TODO supply a title</title>
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Locadora de Veiculos</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    </head>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet"/>
+
+        <!-- Custom CSS -->
+        <link href="css/shop-homepage.css" rel="stylesheet"/>
+    </h:head>    
     <body>
-        <h:form enctype="multipart/form-data"> 
-            <h:outputLabel value="Placa"/>
-            <h:inputText value="#{controllerVeiculo.veiculo.placa}"/>
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <h:form><h:commandLink class="navbar-brand" action="#{controllerServidor.retornarAPaginaInicial()}" value="Inicio"/></h:form>
 
-            <h:outputLabel value="Fabricante"/>
-            <h:inputText value="#{controllerVeiculo.veiculo.fabricante}"/>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="#">Sobre</a>
+                        </li>
+                        <li>
+                            <a href="#">Serviços</a>
+                        </li>
+                        <li>
+                            <a href="#">Contato</a>
+                        </li>                        
+                    </ul>
+                    <ul class="nav navbar-right">
+                        <li>    
+                            <c:if test="#{controllerServidor.cliente.id != 0}">
+                                <!--<div class="dropdown">-->
+                                <button class="btn btn-default-black dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    #{controllerServidor.cliente.nome}
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">                                
+                                    <h:form>                                        
+                                        <li><h:commandLink class="list-group-item" action="#{controllerServidor.retornarCadastroCliente()}" value="Cadastro de Cliente"/></li>
+                                        <li><h:commandLink class="list-group-item" action="#{controllerServidor.retornarCadastroVeiculo()}" value="Cadastro de Veiculo"/></li>
+                                        <li><h:commandLink class="list-group-item" action="#{controllerServidor.logout()}" value="Sair">   <span class="glyphicon glyphicon-off"/></h:commandLink></li>
+                                    </h:form>
+                                </ul>
+                            </c:if>
 
-            <h:outputLabel value="Nome Do Veiculo"/>
-            <h:inputText value="#{controllerVeiculo.veiculo.nome}"/>            
+                            <c:if test="#{controllerServidor.cliente.id == 0}">
+                                <!--<div class="dropdown">-->
+                                <button class="btn btn-default-black dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    Login
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">                                
+                                    <h:form id="formLogin">
+                                        <div class="form-group">
+                                            <label for="username"><span class="glyphicon glyphicon-user"></span> Email</label>
+                                            <h:inputText value="#{controllerServidor.emailLogin}" class="form-control" id="usrname" pt:placeholder="Digite o Email"/>                                        
+                                        </div>
 
-            <h:outputLabel value="Valor Aluguel"/>
-            <h:inputText value="#{controllerVeiculo.aluguel.valor}"/>
+                                        <div class="form-group">
+                                            <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Senha</label>
+                                            <h:inputSecret value="#{controllerServidor.senhaLogin}" class="form-control" id="psw" pt:placeholder="Digite a Senha"/>                                        
+                                        </div>
 
-            <h:outputLabel value="Foto do Veiculo"/>
-            <p:fileUpload
-                label="Procurar"
-                value="#{controllerVeiculo.fileVeiculo}"
-                allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/" 
-                mode="simple"
-                required="true"
-                styleClass="btn btn-default"
-                />
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" value="" checked=""/>Relembrar-me</label>
+                                        </div>
 
-            <h:commandButton value="Salvar" action="#{controllerVeiculo.addVeiculo()}"/>
+                                        <h:commandButton action="#{controllerServidor.logarCliente()}" class="btn btn-success btn-block" value="Login"></h:commandButton>                                    
+                                    </h:form>                                             
+                                    <li role="separator" class="divider"></li>
+                                    <li><h:form><h:commandLink class="list-group-item" action="#{controllerServidor.retornarCadastroCliente()}" value="Novo Cliente? Comece Aqui."/></h:form></li>
+                                </ul>
+                            </c:if>
+                            <!--</div>-->
+                        </li>                        
+                    </ul>
+                </div>                
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
 
-        </h:form>
+        <!-- Page Content -->        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="well well-sm">
+                        <h:form enctype="multipart/form-data"> 
+                            <fieldset>
+                                <legend class="text-center header">Cadastro de Veiculo</legend>
+
+                                <div class="form-group">
+                                    <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                                    <div class="col-md-8">
+                                        <h:inputText value="#{controllerVeiculo.veiculo.fabricante}" pt:placeholder="Digite o Fabricante" class="form-control"/>
+                                    </div>
+                                </div>
+
+                                <br/><br/>
+
+                                <div class="form-group">
+                                    <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                                    <div class="col-md-8">
+                                        <h:inputText value="#{controllerVeiculo.veiculo.nome}" pt:placeholder="Digite o Nome do Veiculo" class="form-control"/>
+                                    </div>
+                                </div>
+
+                                <br/><br/>
+
+                                <div class="form-group">
+                                    <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                                    <div class="col-md-8">
+                                        <h:inputText value="#{controllerVeiculo.veiculo.placa}" pt:placeholder="Digite a Placa" class="form-control"/>
+                                    </div>
+                                </div>
+
+                                <br/><br/>
+
+                                <div class="form-group">
+                                    <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                                    <div class="col-md-4">
+                                        <h:inputText value="#{controllerVeiculo.aluguel.valor}" pt:placeholder="Digite o Valor do Aluguel" class="form-control"/>
+                                    </div>
+                                    <div class="col-md-4">                                        
+                                        <h:selectOneMenu class="form-control" value="#{controllerVeiculo.tipoVeiculo}">
+                                            <f:selectItem itemValue="0" itemLabel="Economico" />
+                                            <f:selectItem itemValue="1" itemLabel="SUV" />
+                                            <f:selectItem itemValue="2" itemLabel="Luxo" />
+                                        </h:selectOneMenu>	                                       
+                                    </div>                                    
+                                </div>                                
+
+                                <br/><br/>
+
+                                <div class="form-group">
+                                    <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                                    <div class="col-md-8">
+                                        <h:inputTextarea class="form-control" value="#{controllerVeiculo.veiculo.descricao}" pt:placeholder="Digite uma Descrição Para o Veiculo"/>                                        
+                                    </div>
+                                    <br/><br/>
+                                </div>    
+
+                                <br/><br/>
+
+                                <div class="form-group">
+                                    <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                                    <div class="col-md-8">                                        
+                                        <p:fileUpload label="Procurar" value="#{controllerVeiculo.fileVeiculo}" allowTypes="/(\.|\/)(gif|jpg|jpeg|gif|png|PNG|GIF|JPG|JPEG)$/" 
+                                                      mode="simple" required="true" styleClass="btn btn-default"/>
+                                    </div>
+                                </div>    
+
+                                <br/><br/>
+
+                                <div class="form-group">
+                                    <div class="col-md-12 text-center">
+                                        <h:commandButton class="btn btn-success btn-lg" action="#{controllerVeiculo.addVeiculo()}" value="Cadastrar"/>                                        
+                                    </div>
+                                </div>
+                            </fieldset>                        
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>                   
+        <!-- /.container -->
+
+        <div class="container">
+
+
+            <!-- Footer -->
+            <footer>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p>Copyright Your Website 2014</p>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+        <!-- /.container -->
+
+        <!-- jQuery -->
+        <script src="js/jquery.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="js/bootstrap.min.js"></script>
     </body>
 </html>
+

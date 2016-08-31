@@ -73,7 +73,7 @@ public class ControllerCliente implements Serializable {
         cliente.setLogin(login);
         serviceCliente.salvar(cliente);
         cliente = new Cliente();
-        return "";
+        return "index.xhtml";
     }
 
 }

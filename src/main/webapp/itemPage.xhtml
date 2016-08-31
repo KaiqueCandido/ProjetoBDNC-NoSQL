@@ -10,16 +10,12 @@ and open the template in the editor.
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
       xmlns:p="http://primefaces.org/ui">
-
     <head>
-
         <title>#{controllerVeiculo.veiculoPesquisado.nome}</title>
         <!-- Bootstrap Core CSS -->
-        <link href="css/bootstrap.min.css" rel="stylesheet"/>
-
+        <link href="css/bootstrap.min.css" rel="stylesheet"/>                        
         <!-- Custom CSS -->
         <link href="css/shop-item.css" rel="stylesheet"/>
-
     </head>
     <body>
         <br/><br/>
@@ -61,11 +57,11 @@ and open the template in the editor.
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">                                
-                                    <li><a href="#">Action</a></li>
-                                    <li><a href="#">Another action</a></li>
-                                    <li><a href="#">Something else here</a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="#"><span class="glyphicon glyphicon-off"></span> Sair</a></li>
+                                    <h:form>                                        
+                                        <li><h:commandLink class="list-group-item" action="#{controllerServidor.retornarCadastroCliente()}" value="Cadastro de Cliente"/></li>
+                                        <li><h:commandLink class="list-group-item" action="#{controllerServidor.retornarCadastroVeiculo()}" value="Cadastro de Veiculo"/></li>
+                                        <li><h:commandLink class="list-group-item" action="#{controllerServidor.logout()}" value="Sair">   <span class="glyphicon glyphicon-off"/></h:commandLink></li>
+                                    </h:form>
                                 </ul>
                             </c:if>
 
@@ -94,7 +90,7 @@ and open the template in the editor.
                                         <h:commandButton action="#{controllerServidor.logarCliente()}" class="btn btn-success btn-block" value="Login"></h:commandButton>                                    
                                     </h:form>                                             
                                     <li role="separator" class="divider"></li>
-                                    <li><a href="#" class="text-center">Novo Cliente? Comece Aqui.</a></li>
+                                    <li><h:form><h:commandLink class="list-group-item" action="#{controllerServidor.retornarCadastroCliente()}" value="Novo Cliente? Comece Aqui."/></h:form></li>
                                 </ul>
                             </c:if>
                             <!--</div>-->

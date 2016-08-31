@@ -58,16 +58,29 @@ public class ControllerServidor implements Serializable {
         this.senhaLogin = senhaLogin;
     }
 
-    public void logarCliente() {        
+    public void logarCliente() {
         System.out.println("ControllerServer");
         Cliente c = serviceCliente.login(emailLogin, senhaLogin);
-        
+
         if (c != null) {
             cliente = c;
         }
     }
-    
-    public String retornarAPaginaInicial(){
+
+    public String logout() {
+        cliente = new Cliente();
+        return "index.xhmlt";
+    }
+
+    public String retornarAPaginaInicial() {
         return "index.xhtml";
+    }
+
+    public String retornarCadastroVeiculo() {
+        return "cadastroVeiculo.xhtml";
+    }
+
+    public String retornarCadastroCliente() {
+        return "cadastroCliente.xhtml";
     }
 }

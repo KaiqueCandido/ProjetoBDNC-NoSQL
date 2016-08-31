@@ -26,7 +26,7 @@ public class Veiculo implements Serializable {
     private String placa;
     private String fabricante;
     private String nome;
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     private Aluguel aluguel;
     private String foto;
     private String descricao;

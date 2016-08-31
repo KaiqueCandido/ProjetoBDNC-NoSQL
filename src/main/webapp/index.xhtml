@@ -154,27 +154,29 @@ and open the template in the editor.
                     </h:form>
 
                     <div class="row">
-                        <c:forEach items="#{controllerVeiculo.listaVeiculos}" var="veiculo">                            
-                            <div class="col-sm-4 col-lg-4 col-md-4">
-                                <div class="thumbnail">                                
-                                    <img src="img/veiculos/#{veiculo.foto}" alt="#{veiculo.nome}" style="width: 320px; height: 150px"/>
-                                    <div class="caption">
-                                        <h4 class="pull-right">$#{veiculo.aluguel.valor}0</h4>
-                                        <h:form><h4><h:commandLink action="#{controllerVeiculo.pesquisarVeiculo(veiculo.id)}" value="#{veiculo.fabricante} #{veiculo.nome}"/></h4></h:form>                                        
-                                        <p>#{veiculo.descricao}</p>
-                                    </div>
-                                    <div class="ratings">
-                                        <p class="pull-right">15 reviews</p>
-                                        <p>
-                                            <span class="glyphicon glyphicon-star"></span>
-                                            <span class="glyphicon glyphicon-star"></span>
-                                            <span class="glyphicon glyphicon-star"></span>
-                                            <span class="glyphicon glyphicon-star"></span>
-                                            <span class="glyphicon glyphicon-star"></span>
-                                        </p>
+                        <c:forEach items="#{controllerVeiculo.listaVeiculos}" var="veiculo">   
+                            <c:if test="#{veiculo.aluguel.saida == 0}">
+                                <div class="col-sm-4 col-lg-4 col-md-4">
+                                    <div class="thumbnail">                                
+                                        <img src="img/veiculos/#{veiculo.foto}" alt="#{veiculo.nome}" style="width: 320px; height: 150px"/>
+                                        <div class="caption">
+                                            <h4 class="pull-right">$#{veiculo.aluguel.valor}0</h4>
+                                            <h:form><h4><h:commandLink action="#{controllerVeiculo.pesquisarVeiculo(veiculo.id)}" value="#{veiculo.fabricante} #{veiculo.nome}"/></h4></h:form>                                        
+                                            <p>#{veiculo.descricao}</p>
+                                        </div>
+                                        <div class="ratings">
+                                            <p class="pull-right">15 reviews</p>
+                                            <p>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                                <span class="glyphicon glyphicon-star"></span>
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </c:if>
                         </c:forEach>                                                    
 
                     </div>

@@ -6,6 +6,7 @@
 package com.pos.projetobdnc.controller;
 
 import com.pos.projetobdnc.entity.Aluguel;
+import com.pos.projetobdnc.entity.Cliente;
 import com.pos.projetobdnc.entity.Veiculo;
 import com.pos.projetobdnc.enums.TipoVeiculo;
 import com.pos.projetobdnc.service.ServiceVeiculo;
@@ -216,7 +217,7 @@ public class ControllerVeiculo {
         return "";
     }
 
-    public void valorAluguel() {
+    public String locarCarro(Cliente cliente) {        
         String[] splitChegada = this.chegada.split("/");
         int diaChegada = Integer.parseInt(splitChegada[0]);
         int mesChegada = Integer.parseInt(splitChegada[1]);
@@ -229,11 +230,23 @@ public class ControllerVeiculo {
 
         Calendar chegada = Calendar.getInstance();
         chegada.set(anoChegada, mesChegada, diaChegada);
-        System.out.println(chegada.get(Calendar.DAY_OF_YEAR));
+        int getchegada = chegada.get(Calendar.DAY_OF_YEAR);        
+        System.out.println(getchegada);
 
         Calendar saida = Calendar.getInstance();
         saida.set(anoSaida, mesSaida, diaSaida);
-        System.out.println(saida.get(Calendar.DAY_OF_YEAR));
-
+        int getSaida = saida.get(Calendar.DAY_OF_YEAR);        
+        System.out.println(getSaida);
+        
+        Veiculo veiculoP = serviceVeiculo.pesquisar(Veiculo.class, this.veiculoPesquisado.getId());
+        veiculoP.getAluguel().setChegada(getchegada);
+        veiculoP.getAluguel().setSaida(getSaida);
+        veiculoP.getAluguel().setCliente(cliente);
+        
+        System.out.println(cliente);
+        System.out.println(veiculoP);
+        
+        serviceVeiculo.atualizar(veiculoP);
+        return "index.xhtml";
     }
 }

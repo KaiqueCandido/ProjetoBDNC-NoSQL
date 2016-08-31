@@ -9,7 +9,8 @@ and open the template in the editor.
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
       xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <head>
         <title>#{controllerVeiculo.veiculoPesquisado.nome}</title>
         <!-- Bootstrap Core CSS -->
@@ -147,13 +148,10 @@ and open the template in the editor.
                                     <h:inputText class="input-sm" value="#{controllerVeiculo.saida}" pt:placeholder="Data de Locação Ex:01/09/2016" style="width: 200px"/>
                                 </li>
                                 <li style="padding-right: 15px">
-                                    <h:inputText class="input-sm" value="#{controllerVeiculo.chegada}" pt:placeholder="Data de Devolução Ex:05/09/2016" style="width: 210px"/><br/>
-                                </li>
-                                <li style="padding-right: 15px">
-                                    <h4><h:outputText class="text-capitalize" value="Estimativa de Aluguel: "/></h4>                                    
-                                </li>
-                                <li style="padding-right: 15px">
-                                    <h:commandButton class="btn btn-success" value="Locar Este Carro" action="#{controllerVeiculo.valorAluguel()}"/>
+                                    <h:inputText class="input-sm" value="#{controllerVeiculo.chegada}" pt:placeholder="Data de Devolução Ex:05/09/2016" style="width: 210px"/><br/>                                                                       
+                                </li>                                
+                                <li style="padding-right: 15px">                                                                        
+                                    <h:commandButton class="btn btn-success" value="Locar Este Carro" action="#{controllerVeiculo.locarCarro(controllerServidor.cliente)}" style="padding-bottom: 1px"/>
                                 </li>                        
                             </ul>
                             <br/><br/>

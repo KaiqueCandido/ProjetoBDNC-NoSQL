@@ -180,6 +180,23 @@ public class ControllerVeiculo {
         return "itemPage.xhtml";
     }
 
+    public String pesquisarVeiculoMinhaLocacao(long id) {
+        veiculoPesquisado = serviceVeiculo.pesquisar(Veiculo.class, id);
+        return "devolucaoDeVeiculo.xhtml";
+    }
+
+    public String valorTotalDaLocacao() {
+        int chegada1 = this.veiculoPesquisado.getAluguel().getChegada();
+        int saida1 = this.veiculoPesquisado.getAluguel().getSaida();
+        int valor = (int) this.veiculoPesquisado.getAluguel().getValor();
+
+        int soma = (chegada1 - saida1) * valor;
+
+        System.out.println(soma);
+
+        return (String.valueOf(soma));
+    }
+
     public String upload(UploadedFile fileUp) {
         if (fileUp != null) {
             try {
@@ -213,11 +230,15 @@ public class ControllerVeiculo {
         return null;
     }
 
-    public String locarVeiculo() {
-        return "";
+    public String devolverVeiculo() {
+        this.veiculoPesquisado.getAluguel().setChegada(0);
+        this.veiculoPesquisado.getAluguel().setSaida(0);
+        this.veiculoPesquisado.getAluguel().setCliente(null);
+        serviceVeiculo.atualizar(veiculoPesquisado);
+        return "index.xhtml";
     }
 
-    public String locarCarro(Cliente cliente) {        
+    public String locarCarro(Cliente cliente) {
         String[] splitChegada = this.chegada.split("/");
         int diaChegada = Integer.parseInt(splitChegada[0]);
         int mesChegada = Integer.parseInt(splitChegada[1]);
@@ -230,22 +251,22 @@ public class ControllerVeiculo {
 
         Calendar chegada = Calendar.getInstance();
         chegada.set(anoChegada, mesChegada, diaChegada);
-        int getchegada = chegada.get(Calendar.DAY_OF_YEAR);        
+        int getchegada = chegada.get(Calendar.DAY_OF_YEAR);
         System.out.println(getchegada);
 
         Calendar saida = Calendar.getInstance();
         saida.set(anoSaida, mesSaida, diaSaida);
-        int getSaida = saida.get(Calendar.DAY_OF_YEAR);        
+        int getSaida = saida.get(Calendar.DAY_OF_YEAR);
         System.out.println(getSaida);
-        
+
         Veiculo veiculoP = serviceVeiculo.pesquisar(Veiculo.class, this.veiculoPesquisado.getId());
         veiculoP.getAluguel().setChegada(getchegada);
         veiculoP.getAluguel().setSaida(getSaida);
         veiculoP.getAluguel().setCliente(cliente);
-        
+
         System.out.println(cliente);
         System.out.println(veiculoP);
-        
+
         serviceVeiculo.atualizar(veiculoP);
         return "index.xhtml";
     }

@@ -79,6 +79,10 @@ public class ControllerServidor implements Serializable {
     public String retornarCadastroVeiculo() {
         return "cadastroVeiculo.xhtml";
     }
+    
+    public String retornarMinhasLocacoes() {
+        return "minhasLocacoes.xhtml";
+    }
 
     public String retornarCadastroCliente() {
         return "cadastroCliente.xhtml";

@@ -57,9 +57,9 @@ and open the template in the editor.
                                     <span class="caret"></span>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">                                
-                                    <h:form>                                        
-                                        <li><h:commandLink class="list-group-item" action="#{controllerServidor.retornarCadastroCliente()}" value="Cadastro de Cliente"/></li>
+                                    <h:form>                                                                                
                                         <li><h:commandLink class="list-group-item" action="#{controllerServidor.retornarCadastroVeiculo()}" value="Cadastro de Veiculo"/></li>
+                                        <li><h:commandLink class="list-group-item" action="#{controllerServidor.retornarMinhasLocacoes()}" value="Minhas Locações"/></li>
                                         <li><h:commandLink class="list-group-item" action="#{controllerServidor.logout()}" value="Sair">   <span class="glyphicon glyphicon-off"/></h:commandLink></li>
                                     </h:form>
                                 </ul>
@@ -110,6 +110,7 @@ and open the template in the editor.
                 <div class="col-md-3">
                     <p class="lead">Locadora Automotiva</p>
                     <div class="list-group">
+                        <h:form><h:commandLink class="list-group-item" action="#{controllerVeiculo.carregarListaDeVeiculos()}" value="Todas as Categorias"/></h:form>
                         <h:form><h:commandLink class="list-group-item" action="#{controllerVeiculo.carregarListaDeVeiculosEconomicos()}" value="Economico"/></h:form>
                         <h:form><h:commandLink class="list-group-item" action="#{controllerVeiculo.carregarListaDeVeiculosLuxo()}" value="Luxo"/></h:form>
                         <h:form><h:commandLink class="list-group-item" action="#{controllerVeiculo.carregarListaDeVeiculosSuv()}" value="SUV"/></h:form>                        

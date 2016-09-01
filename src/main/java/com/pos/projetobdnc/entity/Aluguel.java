@@ -5,24 +5,27 @@
  */
 package com.pos.projetobdnc.entity;
 
+import com.pos.projetobdnc.interfaces.MongoDBObject;
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import org.bson.Document;
 
 /**
  *
  * @author kaiqu
  */
 @Entity
-public class Aluguel implements Serializable {
+public class Aluguel implements Serializable, MongoDBObject<Aluguel> {
 
     @Id
     @GeneratedValue
-    private long id;    
-    private int saida;    
+    private long id;
+    private int saida;
     private int chegada;
     @OneToOne
     private Cliente cliente;
@@ -30,7 +33,6 @@ public class Aluguel implements Serializable {
 
     public Aluguel() {
     }
-    
 
     public Aluguel(int saida, int chegada, Cliente cliente, double valor) {
         this.saida = saida;
@@ -90,6 +92,29 @@ public class Aluguel implements Serializable {
     @Override
     public String toString() {
         return "Aluguel{" + "id=" + id + ", saida=" + saida + ", chegada=" + chegada + ", cliente=" + cliente + ", valor=" + valor + '}';
+    }
+
+    @Override
+    public Document toDocument() {
+        Document doc = new Document();
+        doc.append("_id", id);
+        doc.append("saida", saida);
+        doc.append("chegada", chegada);
+        doc.append("valor", valor);
+        doc.append("cliente", cliente.toDocument());
+
+        return doc;
+    }
+
+    @Override
+    public Aluguel fromDocument(Document next) {
+        id = next.getLong("_id");
+        saida = next.getInteger("saida");
+        chegada = next.getInteger("chegada");
+        valor = next.getDouble("valor");
+        cliente = new Cliente().fromDocument(next.get("cliente",Document.class));        
+
+        return this;
     }
 
 }

@@ -5,19 +5,21 @@
  */
 package com.pos.projetobdnc.entity;
 
+import com.pos.projetobdnc.interfaces.MongoDBObject;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import org.bson.Document;
 
 /**
  *
  * @author kaiqu
  */
 @Entity
-public class Cliente implements Serializable {
+public class Cliente implements Serializable, MongoDBObject<Cliente> {
 
     @Id
     @GeneratedValue
@@ -78,6 +80,26 @@ public class Cliente implements Serializable {
     @Override
     public String toString() {
         return "Cliente{" + "id=" + id + ", nome=" + nome + ", email=" + email + ", login=" + login + '}';
+    }
+
+    @Override
+    public Document toDocument() {
+        Document doc = new Document();
+        doc.append("_id", id);
+        doc.append("nome", nome);
+        doc.append("email", email);
+        doc.append("login", login.toDocument());
+
+        return doc;
+    }
+
+    @Override
+    public Cliente fromDocument(Document next) {
+        id = next.getLong("_id");
+        nome = next.getString("nome");
+        nome = next.getString("email");
+        login = new Login().fromDocument(next.get("login", Document.class));
+        return this;
     }
 
 }

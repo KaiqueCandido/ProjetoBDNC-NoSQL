@@ -21,6 +21,9 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 import org.primefaces.model.UploadedFile;
 
 /**
@@ -125,44 +128,44 @@ public class ControllerVeiculo {
     public void carregarListaDeVeiculosEconomicos() {
         List<Veiculo> listar = serviceVeiculo.listar();
         List<Veiculo> veiculosEconomicos = new ArrayList<>();
-        for (Veiculo v : listar) {
-            if (v.getTipo().equals(TipoVeiculo.ECONOMICO)) {
-                veiculosEconomicos.add(v);
-            }
-        }
+        listar.stream().filter((v) -> (v.getTipo().equals(TipoVeiculo.ECONOMICO))).forEach((v) -> {
+            veiculosEconomicos.add(v);
+        });
         this.setListaVeiculos(veiculosEconomicos);
     }
 
     public void carregarListaDeVeiculosLuxo() {
         List<Veiculo> listar = serviceVeiculo.listar();
         List<Veiculo> veiculosLuxo = new ArrayList<>();
-        for (Veiculo v : listar) {
-            if (v.getTipo().equals(TipoVeiculo.LUXO)) {
-                veiculosLuxo.add(v);
-            }
-        }
+        listar.stream().filter((v) -> (v.getTipo().equals(TipoVeiculo.LUXO))).forEach((v) -> {
+            veiculosLuxo.add(v);
+        });
         this.setListaVeiculos(veiculosLuxo);
     }
 
     public void carregarListaDeVeiculosSuv() {
         List<Veiculo> listar = serviceVeiculo.listar();
         List<Veiculo> veiculosSuv = new ArrayList<>();
-        for (Veiculo v : listar) {
-            if (v.getTipo().equals(TipoVeiculo.SUV)) {
-                veiculosSuv.add(v);
-            }
-        }
+        listar.stream().filter((v) -> (v.getTipo().equals(TipoVeiculo.SUV))).forEach((v) -> {
+            veiculosSuv.add(v);
+        });
         this.setListaVeiculos(veiculosSuv);
     }
 
-    public String addVeiculo() throws IOException {
+    public void addVeiculo() throws IOException {
         veiculo.setAluguel(aluguel);
         veiculo.setFoto(upload(this.fileVeiculo));
         this.verificaTipoVeiculo();
         serviceVeiculo.salvar(veiculo);
         veiculo = new Veiculo();
         aluguel = new Aluguel();
-        return "index.xhml";
+        
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            externalContext.redirect(externalContext.getRequestContextPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }         
     }
 
     public void verificaTipoVeiculo() {
@@ -177,13 +180,13 @@ public class ControllerVeiculo {
 
     public String pesquisarVeiculo(long id) {
         veiculoPesquisado = serviceVeiculo.pesquisar(Veiculo.class, id);
-        return "itemPage.xhtml";
-    }
+        return "/sistema/itemPage.xhtml";
+        }                 
 
     public String pesquisarVeiculoMinhaLocacao(long id) {
         veiculoPesquisado = serviceVeiculo.pesquisar(Veiculo.class, id);
-        return "devolucaoDeVeiculo.xhtml";
-    }
+        return "/sistema/devolucaoDeVeiculo.xhtml";
+        }                                 
 
     public String valorTotalDaLocacao() {
         int chegada1 = this.veiculoPesquisado.getAluguel().getChegada();
@@ -230,15 +233,21 @@ public class ControllerVeiculo {
         return null;
     }
 
-    public String devolverVeiculo() {
+    public void devolverVeiculo() {
         this.veiculoPesquisado.getAluguel().setChegada(0);
         this.veiculoPesquisado.getAluguel().setSaida(0);
         this.veiculoPesquisado.getAluguel().setCliente(null);
         serviceVeiculo.atualizar(veiculoPesquisado);
-        return "index.xhtml";
+        
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            externalContext.redirect(externalContext.getRequestContextPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public String locarCarro(Cliente cliente) {
+    public void locarCarro(Cliente cliente) {
         String[] splitChegada = this.chegada.split("/");
         int diaChegada = Integer.parseInt(splitChegada[0]);
         int mesChegada = Integer.parseInt(splitChegada[1]);
@@ -268,6 +277,12 @@ public class ControllerVeiculo {
         System.out.println(veiculoP);
 
         serviceVeiculo.atualizar(veiculoP);
-        return "index.xhtml";
+        
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        try {
+            externalContext.redirect(externalContext.getRequestContextPath());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

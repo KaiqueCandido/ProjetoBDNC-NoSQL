@@ -74,6 +74,6 @@ public class ControllerCliente implements Serializable {
         serviceCliente.salvar(cliente);
         cliente = new Cliente();
         return "index.xhtml";
-    }
+        }
 
 }

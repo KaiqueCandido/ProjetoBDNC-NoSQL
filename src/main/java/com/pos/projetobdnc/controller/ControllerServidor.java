@@ -70,16 +70,16 @@ public class ControllerServidor implements Serializable {
     public String logout() {
         cliente = new Cliente();
         return "index.xhmlt";
-    }
+        }
 
     public String retornarAPaginaInicial() {
         return "index.xhtml";
-    }
+        }
 
     public String retornarCadastroVeiculo() {
         return "cadastroVeiculo.xhtml";
-    }
-    
+        }
+
     public String retornarMinhasLocacoes() {
         return "minhasLocacoes.xhtml";
     }

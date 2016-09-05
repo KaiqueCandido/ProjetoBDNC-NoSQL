@@ -6,6 +6,7 @@
 package com.pos.projetobdnc.controller;
 
 import com.pos.projetobdnc.dao.poliglota.AluguelDaoMongodb;
+import com.pos.projetobdnc.dao.poliglota.AluguelDaoNeo4j;
 import com.pos.projetobdnc.entity.Aluguel;
 import com.pos.projetobdnc.entity.Cliente;
 import com.pos.projetobdnc.entity.Veiculo;
@@ -293,6 +294,8 @@ public class ControllerVeiculo {
         serviceVeiculo.atualizar(veiculoP);
 
         new AluguelDaoMongodb().create(veiculoP.getAluguel());
+
+        new AluguelDaoNeo4j().create(veiculoP);
 
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         try {

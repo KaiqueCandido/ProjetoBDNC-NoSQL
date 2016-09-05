@@ -73,7 +73,7 @@ public class ControllerServidor implements Serializable {
 
     public String logout() {
         cliente = new Cliente();
-        return "index.xhmlt";
+        return "index.xhtml";
     }
 
     public String retornarAPaginaInicial() {

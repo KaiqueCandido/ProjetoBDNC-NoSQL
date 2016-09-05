@@ -28,7 +28,7 @@ public class Veiculo implements Serializable, MongoDBObject<Veiculo> {
     private String placa;
     private String fabricante;
     private String nome;
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(cascade = CascadeType.ALL)
     private Aluguel aluguel;
     private String foto;
     private String descricao;
@@ -134,7 +134,7 @@ public class Veiculo implements Serializable, MongoDBObject<Veiculo> {
     @Override
     public Document toDocument() {
         Document doc = new Document();
-        doc.append("_id", id);
+        doc.append("id", id);
         doc.append("placa", placa);
         doc.append("fabricante", fabricante);
         doc.append("nome", nome);
@@ -145,7 +145,7 @@ public class Veiculo implements Serializable, MongoDBObject<Veiculo> {
 
     @Override
     public Veiculo fromDocument(Document next) {
-        id = next.getLong("_id");
+        id = next.getLong("id");
         placa = next.getString("placa");
         fabricante = next.getString("fabricante");
         nome = next.getString("nome");

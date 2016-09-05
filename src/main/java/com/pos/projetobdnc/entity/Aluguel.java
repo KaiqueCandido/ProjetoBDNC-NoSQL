@@ -108,7 +108,7 @@ public class Aluguel implements Serializable, MongoDBObject<Aluguel> {
     @Override
     public Document toDocument() {
         Document doc = new Document();
-        doc.append("_id", id);
+        doc.append("id", id);
         doc.append("saida", saida);
         doc.append("chegada", chegada);
         doc.append("valor", valor);
@@ -120,7 +120,7 @@ public class Aluguel implements Serializable, MongoDBObject<Aluguel> {
     
     @Override
     public Aluguel fromDocument(Document next) {
-        id = next.getLong("_id");
+        id = next.getLong("id");
         saida = next.getInteger("saida");
         chegada = next.getInteger("chegada");
         valor = next.getDouble("valor");

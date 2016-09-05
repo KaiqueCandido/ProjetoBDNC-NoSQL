@@ -262,6 +262,7 @@ public class ControllerVeiculo {
     }
 
     public void locarCarro(Cliente cliente) {
+        System.out.println("Entrou no metodo de Locar");
         String[] splitChegada = this.chegada.split("/");
         int diaChegada = Integer.parseInt(splitChegada[0]);
         int mesChegada = Integer.parseInt(splitChegada[1]);
@@ -281,13 +282,16 @@ public class ControllerVeiculo {
         saida.set(anoSaida, mesSaida, diaSaida);
         int getSaida = saida.get(Calendar.DAY_OF_YEAR);
         System.out.println(getSaida);
-
+        
+        System.out.println("Vai atualizar os dados do Aluguel do Veiculo");
+        
         Veiculo veiculoP = serviceVeiculo.pesquisar(Veiculo.class, this.veiculoPesquisado.getId());
         veiculoP.getAluguel().setChegada(getchegada);
         veiculoP.getAluguel().setSaida(getSaida);
         veiculoP.getAluguel().setCliente(cliente);
         veiculoP.getAluguel().setIdVeiculo(veiculoP.getId());
-
+        
+        System.out.println("Veiculo Atualizado");
         System.out.println(cliente);
         System.out.println(veiculoP);
 
@@ -296,6 +300,8 @@ public class ControllerVeiculo {
         new AluguelDaoMongodb().create(veiculoP.getAluguel());
 
         new AluguelDaoNeo4j().create(veiculoP);
+        
+        this.aluguel = new Aluguel();
 
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         try {

@@ -22,7 +22,7 @@ public class AluguelDaoMongodb {
     public AluguelDaoMongodb() {
         mongoClient = new MongoClient("localhost", 27017);
         database = mongoClient.getDatabase("bdnc");
-        collection = database.getCollection("Aluguel");
+        collection = database.getCollection("Alugueis");
     }
 
     public boolean create(Aluguel a) {
@@ -55,15 +55,20 @@ public class AluguelDaoMongodb {
         return alugueis;
     }
 
-//    public static void main(String[] args) {
-//
+    public static void main(String[] args) {
+
 //        MongoClient mongoClient;
 //        MongoDatabase database;
 //        MongoCollection<Document> collection;
 //
 //        mongoClient = new MongoClient("localhost", 27017);
 //        database = mongoClient.getDatabase("bdnc");
-//        database.createCollection("Aluguel");
-////        collection = database.getCollection("Aluguel");
-//    }
+//        database.createCollection("Alugueis");
+//        collection = database.getCollection("Aluguel");
+        
+        
+        AluguelDaoMongodb adm = new AluguelDaoMongodb();
+        
+        adm.listAll().forEach(a -> System.out.println(a.toString()));
+    }
 }

@@ -71,7 +71,7 @@ public class Login implements Serializable, MongoDBObject<Object> {
     @Override
     public Document toDocument() {
         Document doc = new Document();
-        doc.append("_id", id);
+        doc.append("id", id);
         doc.append("login", login);
         doc.append("senha", senha);
         
@@ -80,7 +80,7 @@ public class Login implements Serializable, MongoDBObject<Object> {
     
     @Override
     public Login fromDocument(Document next) {
-        id = next.getLong("_id");
+        id = next.getLong("id");
         login = next.getString("login");
         senha = next.getString("senha");
         

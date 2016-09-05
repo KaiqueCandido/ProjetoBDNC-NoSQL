@@ -85,7 +85,7 @@ public class Cliente implements Serializable, MongoDBObject<Cliente> {
     @Override
     public Document toDocument() {
         Document doc = new Document();
-        doc.append("_id", id);
+        doc.append("id", id);
         doc.append("nome", nome);
         doc.append("email", email);
         doc.append("login", login.toDocument());
@@ -95,9 +95,9 @@ public class Cliente implements Serializable, MongoDBObject<Cliente> {
 
     @Override
     public Cliente fromDocument(Document next) {
-        id = next.getLong("_id");
+        id = next.getLong("id");
         nome = next.getString("nome");
-        nome = next.getString("email");
+        email = next.getString("email");
         login = new Login().fromDocument(next.get("login", Document.class));
         return this;
     }

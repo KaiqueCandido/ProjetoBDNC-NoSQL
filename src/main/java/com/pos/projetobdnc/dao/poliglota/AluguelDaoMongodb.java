@@ -6,6 +6,8 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.eq;
 import com.pos.projetobdnc.entity.Aluguel;
+import com.pos.projetobdnc.entity.Cliente;
+import com.pos.projetobdnc.entity.Login;
 import org.bson.Document;
 
 public class AluguelDaoMongodb {
@@ -14,21 +16,21 @@ public class AluguelDaoMongodb {
     MongoDatabase database;
     MongoCollection<Document> collection;
     
-    public AluguelDaoMongodb(){
+    public AluguelDaoMongodb() {
         mongoClient = new MongoClient("localhost", 27017);
-        database = mongoClient.getDatabase("testes");
+        database = mongoClient.getDatabase("teste");
         collection = database.getCollection("Aluguel");
     }
     
-    public boolean create(Aluguel a){
+    public boolean create(Aluguel a) {
         collection.insertOne(a.toDocument());
         return true;
     }
     
-    public Aluguel read(int id){
-        MongoCursor<Document> cursor = collection.find(eq("_id",id)).iterator();
+    public Aluguel read(int id) {
+        MongoCursor<Document> cursor = collection.find(eq("_id", id)).iterator();
         Aluguel aluguel = null;
-        if(cursor.hasNext()){
+        if (cursor.hasNext()) {
             aluguel = new Aluguel().fromDocument(cursor.next());
         }
         return aluguel;

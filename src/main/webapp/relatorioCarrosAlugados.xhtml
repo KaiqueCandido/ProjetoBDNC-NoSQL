@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Locadora de Veiculos</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+        <!-- Bootstrap Core CSS -->
+        <link href="css/bootstrap.min.css" rel="stylesheet"/>
+
+        <!-- Custom CSS -->
+        <link href="css/shop-homepage.css" rel="stylesheet"/>
+    </h:head>    
+    <body>
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <h:form><h:commandLink class="navbar-brand" action="#{controllerServidor.retornarAPaginaInicial()}" value="Inicio"/></h:form>
+
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="#">Sobre</a>
+                        </li>
+                        <li>
+                            <a href="#">Serviços</a>
+                        </li>
+                        <li>
+                            <a href="#">Contato</a>
+                        </li>                        
+                    </ul>
+                    <ul class="nav navbar-right">
+                        <li>    
+                            <c:if test="#{controllerServidor.cliente.id != 0}">
+                                <!--<div class="dropdown">-->
+                                <button class="btn btn-default-black dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    #{controllerServidor.cliente.nome}
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">                                
+                                    <h:form>                                                                                
+                                        <li><h:commandLink class="list-group-item" action="#{controllerServidor.retornarCadastroVeiculo()}" value="Cadastro de Veiculo"/></li>
+                                        <li><h:commandLink class="list-group-item" action="#{controllerServidor.retornarMinhasLocacoes()}" value="Minhas Locações"/></li>
+                                        <li><h:commandLink class="list-group-item" action="#{controllerServidor.logout()}" value="Sair">   <span class="glyphicon glyphicon-off"/></h:commandLink></li>
+                                    </h:form>
+                                </ul>
+                            </c:if>
+
+                            <c:if test="#{controllerServidor.cliente.id == 0}">
+                                <!--<div class="dropdown">-->
+                                <button class="btn btn-default-black dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    Login
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">                                
+                                    <h:form id="formLogin">
+                                        <div class="form-group">
+                                            <label for="username"><span class="glyphicon glyphicon-user"></span> Email</label>
+                                            <h:inputText value="#{controllerServidor.emailLogin}" class="form-control" id="usrname" pt:placeholder="Digite o Email"/>                                        
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Senha</label>
+                                            <h:inputSecret value="#{controllerServidor.senhaLogin}" class="form-control" id="psw" pt:placeholder="Digite a Senha"/>                                        
+                                        </div>
+
+                                        <div class="checkbox">
+                                            <label><input type="checkbox" value="" checked=""/>Relembrar-me</label>
+                                        </div>
+
+                                        <h:commandButton action="#{controllerServidor.logarCliente()}" class="btn btn-success btn-block" value="Login"></h:commandButton>                                    
+                                    </h:form>                                             
+                                    <li role="separator" class="divider"></li>
+                                    <li><h:form><h:commandLink class="list-group-item" action="#{controllerServidor.retornarCadastroCliente()}" value="Novo Cliente? Comece Aqui."/></h:form></li>
+                                </ul>
+                            </c:if>
+                            <!--</div>-->
+                        </li>                        
+                    </ul>
+                </div>                
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container -->
+        </nav>
+
+        <!-- Page Content -->        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="well well-sm">
+
+                        <fieldset>
+                            <h:form id="form">
+                                <p:growl id="msgs" showDetail="true" />
+
+                                <p:dataTable id="basicDT" var="car" value="#{controllerVeiculo.veiculosQueForamAlugados}">
+                                    <f:facet name="header">
+                                        Relação de todos os Carros Alugados
+                                    </f:facet>
+                                    <p:column headerText="Id">
+                                        <h:outputText value="#{car.id}" />
+                                    </p:column>
+                                    <p:column headerText="Fabricante">
+                                        <h:outputText value="#{car.fabricante}" />
+                                    </p:column>
+                                    <p:column headerText="Nome">
+                                        <h:outputText value="#{car.nome}" />
+                                    </p:column>
+                                    <p:column headerText="Placa">
+                                        <h:outputText value="#{car.placa}" />
+                                    </p:column>
+<!--                                    <p:column style="width:32px;text-align: center">
+                                        <p:commandButton update=":form:carDetail" oncomplete="PF('carDialog').show()" icon="ui-icon-search" title="View">
+                                            <f:setPropertyActionListener value="#{car}" target="#{dtSelectionView.selectedCar}" />
+                                        </p:commandButton>
+                                    </p:column>-->
+                                </p:dataTable>
+                            </h:form>
+                        </fieldset>                        
+
+                    </div>
+                </div>
+            </div>
+        </div>                   
+        <!-- /.container -->
+
+        <div class="container">
+
+
+            <!-- Footer -->
+            <footer>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <p>Copyright Your Website 2014</p>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+        <!-- /.container -->
+
+        <!-- jQuery -->
+        <script src="js/jquery.js"></script>
+
+        <!-- Bootstrap Core JavaScript -->
+        <script src="js/bootstrap.min.js"></script>
+    </body>
+</html>
+

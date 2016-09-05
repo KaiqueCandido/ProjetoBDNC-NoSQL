@@ -5,6 +5,7 @@
  */
 package com.pos.projetobdnc.controller;
 
+import com.pos.projetobdnc.dao.poliglota.AluguelDaoMongodb;
 import com.pos.projetobdnc.entity.Aluguel;
 import com.pos.projetobdnc.entity.Cliente;
 import com.pos.projetobdnc.entity.Veiculo;
@@ -23,7 +24,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpSession;
 import org.primefaces.model.UploadedFile;
 
 /**
@@ -41,6 +41,7 @@ public class ControllerVeiculo {
     private Veiculo veiculoPesquisado;
     private Aluguel aluguel;
     private List<Veiculo> listaVeiculos;
+    private List<Veiculo> veiculosQueForamAlugados;
     private UploadedFile fileVeiculo;
     private String chegada, saida;
     private int tipoVeiculo;
@@ -51,6 +52,7 @@ public class ControllerVeiculo {
         this.veiculoPesquisado = new Veiculo();
         this.aluguel = new Aluguel();
         this.listaVeiculos = new ArrayList<>();
+        this.veiculosQueForamAlugados = new ArrayList<>();
         this.chegada = "";
         this.saida = "";
         this.tipoVeiculo = 10;
@@ -120,9 +122,20 @@ public class ControllerVeiculo {
         this.tipoVeiculo = tipoVeiculo;
     }
 
+    public List<Veiculo> getVeiculosQueForamAlugados() {
+        return veiculosQueForamAlugados;
+    }
+
+    public void setVeiculosQueForamAlugados(List<Veiculo> veiculosQueForamAlugados) {
+        this.veiculosQueForamAlugados = veiculosQueForamAlugados;
+    }
+
     //Metodos da aplicação
     public void carregarListaDeVeiculos() {
         this.setListaVeiculos(serviceVeiculo.listar());
+        listaVeiculos.stream().forEach((listaVeiculo) -> {
+            System.out.println(listaVeiculo.toString());
+        });
     }
 
     public void carregarListaDeVeiculosEconomicos() {
@@ -159,13 +172,13 @@ public class ControllerVeiculo {
         serviceVeiculo.salvar(veiculo);
         veiculo = new Veiculo();
         aluguel = new Aluguel();
-        
+
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         try {
             externalContext.redirect(externalContext.getRequestContextPath());
         } catch (IOException e) {
             e.printStackTrace();
-        }         
+        }
     }
 
     public void verificaTipoVeiculo() {
@@ -180,13 +193,13 @@ public class ControllerVeiculo {
 
     public String pesquisarVeiculo(long id) {
         veiculoPesquisado = serviceVeiculo.pesquisar(Veiculo.class, id);
-        return "/sistema/itemPage.xhtml";
-        }                 
+        return "itemPage.xhtml";
+    }
 
     public String pesquisarVeiculoMinhaLocacao(long id) {
         veiculoPesquisado = serviceVeiculo.pesquisar(Veiculo.class, id);
-        return "/sistema/devolucaoDeVeiculo.xhtml";
-        }                                 
+        return "devolucaoDeVeiculo.xhtml";
+    }
 
     public String valorTotalDaLocacao() {
         int chegada1 = this.veiculoPesquisado.getAluguel().getChegada();
@@ -238,7 +251,7 @@ public class ControllerVeiculo {
         this.veiculoPesquisado.getAluguel().setSaida(0);
         this.veiculoPesquisado.getAluguel().setCliente(null);
         serviceVeiculo.atualizar(veiculoPesquisado);
-        
+
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         try {
             externalContext.redirect(externalContext.getRequestContextPath());
@@ -272,17 +285,35 @@ public class ControllerVeiculo {
         veiculoP.getAluguel().setChegada(getchegada);
         veiculoP.getAluguel().setSaida(getSaida);
         veiculoP.getAluguel().setCliente(cliente);
+        veiculoP.getAluguel().setIdVeiculo(veiculoP.getId());
 
         System.out.println(cliente);
         System.out.println(veiculoP);
 
         serviceVeiculo.atualizar(veiculoP);
-        
+
+        new AluguelDaoMongodb().create(veiculoP.getAluguel());
+
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         try {
             externalContext.redirect(externalContext.getRequestContextPath());
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public String retornarRelatorioVeiculosAlugados() {
+        this.carregarListaDeVeiculosAlugados();
+        return "relatorioCarrosAlugados.xhtml";
+    }
+
+    public void carregarListaDeVeiculosAlugados() {
+        List<Aluguel> listAll = new AluguelDaoMongodb().listAll();
+        List<Veiculo> veiculos = new ArrayList<>();
+        listAll.stream().forEach((a) -> {
+            System.out.println(a.toString());
+            veiculos.add(serviceVeiculo.pesquisar(Veiculo.class, a.getIdVeiculo()));
+        });
+        this.setVeiculosQueForamAlugados(veiculos);
     }
 }

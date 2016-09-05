@@ -6,19 +6,21 @@
 package com.pos.projetobdnc.entity;
 
 import com.pos.projetobdnc.enums.TipoVeiculo;
+import com.pos.projetobdnc.interfaces.MongoDBObject;
 import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import org.bson.Document;
 
 /**
  *
  * @author kaiqu
  */
 @Entity
-public class Veiculo implements Serializable {
+public class Veiculo implements Serializable, MongoDBObject<Veiculo> {
 
     @Id
     @GeneratedValue
@@ -26,7 +28,7 @@ public class Veiculo implements Serializable {
     private String placa;
     private String fabricante;
     private String nome;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.PERSIST)
     private Aluguel aluguel;
     private String foto;
     private String descricao;
@@ -127,6 +129,29 @@ public class Veiculo implements Serializable {
     @Override
     public String toString() {
         return "Veiculo{" + "id=" + id + ", placa=" + placa + ", fabricante=" + fabricante + ", nome=" + nome + ", aluguel=" + aluguel + ", foto=" + foto + ", descricao=" + descricao + ", tipo=" + tipo + '}';
+    }
+
+    @Override
+    public Document toDocument() {
+        Document doc = new Document();
+        doc.append("_id", id);
+        doc.append("placa", placa);
+        doc.append("fabricante", fabricante);
+        doc.append("nome", nome);
+        doc.append("descricao", descricao);        
+
+        return doc;
+    }
+
+    @Override
+    public Veiculo fromDocument(Document next) {
+        id = next.getLong("_id");
+        placa = next.getString("placa");
+        fabricante = next.getString("fabricante");
+        nome = next.getString("nome");
+        descricao = next.getString("descricao");        
+
+        return this;
     }
 
 }

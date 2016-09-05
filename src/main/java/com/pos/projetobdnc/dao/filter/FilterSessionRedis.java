@@ -55,7 +55,7 @@ public class FilterSessionRedis implements Filter {
                     request.getRequestDispatcher("erroCadastreseOuLogue.xhtml").forward(request, response);
                 } else {
                     System.out.println("São iguais");
-                    chain.doFilter(request, response);
+                   
                 }
             } else {
                 request.getRequestDispatcher("erroCadastreseOuLogue.xhtml").forward(request, response);

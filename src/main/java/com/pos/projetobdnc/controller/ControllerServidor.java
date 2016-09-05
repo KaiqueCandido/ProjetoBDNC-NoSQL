@@ -11,6 +11,8 @@ import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -19,7 +21,7 @@ import javax.faces.bean.SessionScoped;
 @ManagedBean
 @SessionScoped
 public class ControllerServidor implements Serializable {
-
+        
     @EJB
     private ServiceCliente serviceCliente;
 
@@ -59,26 +61,28 @@ public class ControllerServidor implements Serializable {
     }
 
     public void logarCliente() {
-        System.out.println("ControllerServer");
         Cliente c = serviceCliente.login(emailLogin, senhaLogin);
 
         if (c != null) {
             cliente = c;
+            FacesContext fc = FacesContext.getCurrentInstance();
+            HttpSession session = (HttpSession) fc.getExternalContext().getSession(false);
+            session.setAttribute("ID_USUARIO", this.cliente.getId());
         }
     }
 
     public String logout() {
         cliente = new Cliente();
         return "index.xhmlt";
-        }
+    }
 
     public String retornarAPaginaInicial() {
         return "index.xhtml";
-        }
+    }
 
     public String retornarCadastroVeiculo() {
         return "cadastroVeiculo.xhtml";
-        }
+    }
 
     public String retornarMinhasLocacoes() {
         return "minhasLocacoes.xhtml";

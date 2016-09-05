@@ -6,10 +6,7 @@
 package com.pos.projetobdnc.dao.filter;
 
 import com.pos.projetobdnc.dao.poliglota.SessionDaoRedis;
-import com.pos.projetobdnc.entity.Cliente;
 import java.io.IOException;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
